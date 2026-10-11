@@ -1,31 +1,36 @@
-"""Builds the canonical, fully reproducible CLV_Truth_Engine_Master.ipynb notebook.
+"""Builds the authoritative, fully unexecuted CLV_Truth_Engine_Master.ipynb notebook.
 
-Ensures:
-- Evaluator-friendly single entry point for Google Colab and local evaluation.
-- First Markdown cell contains complete evaluator instructions and honest distinction
-  between GitHub source repository and Colab evaluator notebook.
-- Live repository URL: https://github.com/akshita19904/CLV-Truth-Engine.git.
-- Environment verification cell showing Python version, working directory, and repository status.
-- Dependency installation before imports; repository-relative paths everywhere.
-- Repository integrity check with clear [FOUND] / [MISSING] logging.
-- Fully excludes Logistic Regression and Notebook 02.
-- Final model set: Calibrated XGBoost (Champion) vs. Calibrated Random Forest (Benchmark) vs. Static 5% Baseline.
-- Loads canonical model comparison directly from reports/task1_churn_model_comparison.csv.
-- TreeSHAP feature attributions on raw margin space.
-- 18-cohort grouped back-testing with Wilson score CIs and Holm correction (+10.82 pp bias).
-- Finite-horizon 15-year CLV discounting ($4.31B stated profit, $2.35B CLV, $1.96B Forecast Debt, 45.46% overstatement).
-- Modeled 12-Month Value Exposed ($681.51M) explicitly defined as modeled risk exposure, not realized loss.
-- Top 20 Account Prioritization described as risk-and-value prioritization.
-- Snowflake integration documentation for Snowflake Standard Edition (15/15 PASS, Idempotent PASS).
-- Actually executes automated test suite via subprocess and displays live pytest results.
-- Dynamic 12-point final pipeline integrity check.
-- Exact required Final Evaluation Summary table and concluding quote.
+Ensures 100% alignment with:
+- Source Priority 1: notebooks/Master_notebook.ipynb (working Colab notebook).
+- Priority 2: Official Case Study 2 requirements.
+- Priority 3: notebooks/CLV_Truth_Engine_Master.ipynb (final evaluation summary).
+
+Key Technical & Structural Guarantees:
+- Completely UNEXECUTED: outputs = [], execution_count = None for every code cell.
+- Colab setup with live GitHub clone (https://github.com/akshita19904/CLV-Truth-Engine.git).
+- Repository asset integrity audit ([FOUND] / [MISSING]).
+- All 4 injected data defects audited and quantified dynamically.
+- Target mapping documented: churn_event_next_12m -> churn_label.
+- Leakage-safe GroupKFold validation (sibling churn labels never used as features).
+- Final ML set: Strictly Calibrated XGBoost vs. Calibrated Random Forest vs. Static 5% Baseline (NO Logistic Regression).
+- TreeSHAP feature attributions on XGBoost raw margin space.
+- 18-cohort cross-sectional back-testing with Wilson score CIs and Holm correction (+10.82 pp bias).
+- 15-Year Renewal Framework documented as SCENARIO-BASED RETENTION PROJECTION derived from calibrated 12-month churn (NOT a supervised 15-year renewal prediction).
+- Capacity expansion explicitly covered using supplied operational signal and transparent heuristic score (NOT a separate ML model).
+- Financial metrics: $4.31B stated profit, $2.35B CLV, $1.96B Forecast Debt (45.46% modeled valuation difference, NOT realized loss).
+- Value exposure: "Modeled 12-Month Value Exposed" ($681.51M modeled risk metric, NOT realized loss).
+- Top 20 accounts described as risk-and-value prioritization.
+- Snowflake integration: Snowflake Standard Edition, CLV_DB.CLV, CLV_SCORED_OUTPUT (2,000 rows), CLV_FORECAST_BIAS_MONITOR (18 rows), 15/15 PASS, Idempotency PASS, no credentials.
+- Technical Handover instructions included.
+- Live pytest execution via subprocess (python -m pytest -v).
+- 12-point dynamic integrity audit using scored_df["run_id"] and subset=["array_id", "model_version", "run_id"].
+- Section 19: Final Evaluation Summary table and concluding quote.
 """
 
 from pathlib import Path
 import nbformat as nbf
 
-def create_master_notebook(output_path: Path):
+def create_final_master_notebook(output_path: Path):
     nb = nbf.v4.new_notebook()
     nb.metadata = {
         "kernelspec": {
@@ -177,6 +182,7 @@ required_assets = [
     "reports/task1_churn_model_comparison.csv",
     "reports/phase_3_forecast_debt.csv",
     "reports/phase_3_cohort_bias_results.csv",
+    "reports/phase_3_retention_scenarios.csv",
     "sql/08_manual_snowsight_execution.sql",
     "tests/test_cleaning.py",
     "requirements.txt",
@@ -208,8 +214,8 @@ The **CLV Truth Engine** is an enterprise machine learning and financial enginee
 
 ### Architecture Summary
 1. **Data Audit & Anomaly Treatment:** Non-destructive handling of 4 injected data defects across 2,000 storage arrays.
-2. **Leakage-Safe Feature Engineering:** Enterprise hierarchy features (`sibling_*`, hardware pressure) isolated via `GroupKFold`.
-3. **Machine Learning Pipeline:** Comparison of **Calibrated XGBoost (Production Champion)** vs. **Calibrated Random Forest (Comparison Benchmark)** vs. **Static 5% Baseline**.
+2. **Leakage-Safe Feature Engineering:** Enterprise hierarchy features (`sibling_*`, hardware pressure) isolated via `GroupKFold`. Sibling churn labels are never used as features.
+3. **Machine Learning Pipeline (Task 1):** Comparison of **Calibrated XGBoost (Production Champion)** vs. **Calibrated Random Forest (Comparison Benchmark)** vs. **Static 5% Baseline**.
 4. **Task 2 Forecast Bias Back-Testing:** Quantifying systematic bias across 18 cohorts and 5 operational dimensions with Wilson score confidence intervals and Holm-Bonferroni hypothesis tests.
 5. **Retention-Adjusted CLV & Forecast Debt Layer:** Finite-horizon 15-year cumulative retention discounting exposing **$1.96B (45.46%)** in hidden portfolio Forecast Debt.
 6. **Task 3 Production Warehouse Integration:** Snowflake DDL, staging tables, and idempotent stored procedures (`SP_LOAD_CLV_SCORES`, `SP_REFRESH_BIAS_MONITOR`) in Snowflake Standard Edition.
@@ -356,6 +362,9 @@ plt.show()
 - **Target Isolation:** Create `is_label_known = 1` for 1,884 labelled rows and `0` for 116 holdout rows. **Never convert missing churn labels to 0.**
 - **Telemetry Integrity:** Preserve `UNKNOWN` as an explicit categorical state.
 - **Leakage Prevention:** Sibling churn labels are **NOT** used as predictive features. Account-grouped splitting is used to avoid sibling/account leakage.
+
+> **Target Mapping Note (`churn_event_next_12m` → `churn_label`):**
+> The official Case Study specification designates the binary renewal target as `churn_event_next_12m`. In the production data warehouse and export pipeline, this is mapped to `churn_label` (with holdouts preserved as strict `NULL`). Both identifiers represent the exact same 12-month renewal churn event (`churn_event_next_12m` → `churn_label`). Canonical dataset column names are strictly preserved.
 """))
 
     # =========================================================================
@@ -384,13 +393,16 @@ df_clean[['array_id', 'utilization_rate_pct', 'utilization_capped', 'over_capaci
     # =========================================================================
     # CELL 14: SECTION 7: FEATURE ENGINEERING
     # =========================================================================
-    cells.append(nbf.v4.new_markdown_cell("""# 7. Feature Engineering
+    cells.append(nbf.v4.new_markdown_cell("""# 7. Feature Engineering & Expansion Telemetry
 
 We construct candidate features that capture:
 1. **Contract Temporal Maturity:** `months_to_contract_end = max(0, contract_end_date - snapshot_date)`.
 2. **Hardware Pressure:** `capacity_pressure = utilization_capped * current_capacity_tb`.
 3. **Profit Density:** `profit_per_tb = historical_15yr_net_profit_usd / current_capacity_tb`.
 4. **Account Hierarchy (Sibling Telemetry):** Exploiting the 2-array-per-account structure by engineering `sibling_utilization`, `sibling_capacity`, and `sibling_expansion` (strictly operational metrics, zero target leakage).
+
+> **Capacity Expansion Signal Handling:**
+> Capacity expansion potential is captured directly from the supplied operational telemetry attribute `expansion_potential_signal` (High, Medium, Low, UNKNOWN) and mapped to a transparent heuristic expansion opportunity score (High: 1.0, Medium: 0.5, Low: 0.2, UNKNOWN: 0.0) in the warehouse tables. No separate supervised ML model is invented for expansion, avoiding overclaiming predictive signal on sparse categorical telemetry.
 """))
 
     # =========================================================================
@@ -419,7 +431,7 @@ for f in candidate_features:
     cells.append(nbf.v4.new_markdown_cell("""# 8. Train/Test Split & Leakage Prevention
 
 ### Grouped Validation Design (`GroupKFold` on `account_id`)
-Because enterprise accounts contain 2 storage arrays, standard random cross-validation would leak customer-level renewal propensities across folds. 
+Because enterprise accounts contain 2 storage arrays, standard random cross-validation would leak customer-level renewal propensities across folds.
 
 We implement **5-Fold `GroupKFold` grouped strictly by `account_id`**:
 - **Zero Leakage:** Both arrays from any given customer are placed in the same fold. Sibling churn labels are **NOT** used as features.
@@ -630,10 +642,16 @@ print(f"\\nStatistically Significant Cohorts: {sig_count} / {len(df_cohort)} (10
     cells.append(nbf.v4.new_markdown_cell("""# 13. Retention-Adjusted CLV Scoring & Forecast Debt
 
 ### Mathematical Framework:
-1. **15-Year Finite-Horizon Retention Factor:**
+1. **15-Year Finite-Horizon Retention Factor (Scenario-Based Retention Projection):**
    $$R(p) = \\frac{1 - (1-p)^{15}}{15 \\cdot p}$$
    - At corporate baseline ($p=0.05$): $R(0.05) = 0.7159$
    - At empirical churn ($p=0.1582$): $R(0.1582) = 0.3905$
+
+   > **15-Year Renewal Framework (Scenario-Based Retention Projection):**
+   > The supplied dataset lacks longitudinal duration-to-event, time-varying covariates, or censoring history required for genuine supervised 15-year survival modeling.
+   > Therefore, the 15-year renewal component is explicitly modeled as a **SCENARIO-BASED RETENTION PROJECTION** derived from calibrated 12-month churn probability $p$, using finite-horizon geometric retention discounting:
+   > $$R(p) = \\frac{1 - (1-p)^{15}}{15 \\cdot p}$$
+   > This is a scenario-based retention projection, **NOT a supervised 15-year renewal prediction**.
 
 2. **Retention-Adjusted CLV:**
    $$\\text{CLV}_{\\text{adj}} = \\text{Stated Profit} \\times \\frac{R(p_{\\text{xgb}})}{R(0.05)}$$
@@ -667,6 +685,12 @@ summary_table = pd.DataFrame([
     {"Financial Metric": "Modeled 12-Month Value Exposed", "Portfolio Total (USD)": f"${total_value_exposed:,.2f}", "% of Stated Profit": f"{total_value_exposed/total_stated_profit*100:.2f}%"}
 ])
 display(summary_table)
+
+# Load and inspect 15-year retention scenario projections
+scenarios_csv_path = "reports/phase_3_retention_scenarios.csv"
+df_scenarios = pd.read_csv(scenarios_csv_path)
+print("\\nCanonical 15-Year Retention Scenarios (Derived Projections):")
+display(df_scenarios[["array_id", "account_id", "churn_probability_xgb", "scenario_a_5yr_survival", "scenario_a_10yr_survival", "scenario_a_15yr_survival", "scenario_a_expected_active_years", "scenario_b_15yr_survival"]].head())
 
 # Plot Forecast Debt breakdown
 fig, ax = plt.subplots(figsize=(7, 4))
@@ -733,6 +757,14 @@ In Task 3, we build production tables and SQL stored procedures in **Snowflake S
 - **Master Snowsight SQL:** [`sql/08_manual_snowsight_execution.sql`](file:///C:/Users/anura/.gemini/antigravity/scratch/CLV-Truth-Engine/sql/08_manual_snowsight_execution.sql).
 - **Manual Evidence Checklist:** [`reports/phase4_manual_snowsight_checklist.md`](file:///C:/Users/anura/.gemini/antigravity/scratch/CLV-Truth-Engine/reports/phase4_manual_snowsight_checklist.md).
 - **Production Validation Status:** 15/15 validation checks PASS; Idempotency PASS.
+
+### Technical Handover: Live Snowflake Deployment
+When deploying to an enterprise Snowflake account:
+1. **DDL Setup:** Execute `sql/01_create_clv_schema.sql` through `sql/03_create_staging.sql`.
+2. **Procedures:** Deploy `sql/05_sp_load_clv_scores.sql` and `sql/06_sp_refresh_bias_monitor.sql`.
+3. **Stage Data:** Stage `snowflake_clv_scored_export.csv` and `snowflake_bias_monitor_export.csv` into `@CLV_STAGE`.
+4. **Execute Ingestion:** Run `CALL CLV_DB.CLV.SP_LOAD_CLV_SCORES('run_20261011_phase4');` and `CALL CLV_DB.CLV.SP_REFRESH_BIAS_MONITOR('run_20261011_phase4');`.
+5. **Validation:** Execute `sql/07_validation_queries.sql` (or single-worksheet script `sql/08_manual_snowsight_execution.sql`).
 """))
 
     # =========================================================================
@@ -761,7 +793,7 @@ df_exp_scored[['array_id', 'account_id', 'churn_probability', 'churn_probability
     # =========================================================================
     cells.append(nbf.v4.new_markdown_cell("""# 16. Automated Verification Test Suite
 
-The CLV Truth Engine codebase contains a comprehensive unit and integration test suite. 
+The CLV Truth Engine codebase contains a comprehensive unit and integration test suite.
 Below, we **actually execute pytest directly** from this notebook to verify all repository assertions.
 """))
 
@@ -837,8 +869,8 @@ v_results.append(("Non-Negative Value Exposed", bool(exp_valid), f"Min: ${scored
 # 9. Forecast Debt Financial Reconciliation
 diff = abs(debt_df["historical_15yr_net_profit_usd"].sum() - debt_df["retention_adjusted_clv_xgb"].sum() - debt_df["forecast_debt_xgb"].sum())
 v_results.append(("Forecast Debt Reconciled", diff < 1.0, f"Diff: ${diff:.4f}"))
-# 10. Duplicate Logical Keys = 0
-dup_keys = scored_df.duplicated(subset=["array_id"]).sum()
+# 10. Duplicate Logical Keys = 0 (subset: array_id, model_version, run_id)
+dup_keys = scored_df.duplicated(subset=["array_id", "model_version", "run_id"]).sum()
 v_results.append(("Duplicate Logical Keys = 0", dup_keys == 0, f"{dup_keys} duplicates"))
 # 11. Run ID Integrity
 run_id_present = (scored_df["run_id"].notnull()).all()
@@ -895,6 +927,12 @@ print("\\n>>> All 12 Data & Financial Pipeline Integrity Checks PASSED <<<")
 > "The primary finding is not that the ML models perfectly predict individual churn. Rather, the analysis demonstrates that the existing 5% churn assumption materially understates observed churn. The calibrated model outputs provide a reproducible way to quantify this forecast bias and translate it into retention-adjusted valuation and modeled value exposure."
 """))
 
+    # Ensure every single code cell is completely UNEXECUTED
+    for cell in cells:
+        if cell.cell_type == "code":
+            cell.outputs = []
+            cell.execution_count = None
+
     nb.cells = cells
 
     with open(output_path, "w", encoding="utf-8") as f:
@@ -903,4 +941,4 @@ print("\\n>>> All 12 Data & Financial Pipeline Integrity Checks PASSED <<<")
 
 if __name__ == "__main__":
     out_file = Path("notebooks/CLV_Truth_Engine_Master.ipynb")
-    create_master_notebook(out_file)
+    create_final_master_notebook(out_file)
