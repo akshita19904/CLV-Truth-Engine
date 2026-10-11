@@ -1,0 +1,85 @@
+project:
+  name: "CLV Truth Engine"
+  title: "Behavior-Driven Retention-Adjusted CLV and Forecast Bias Engine"
+  case_study: "Case Study 2 — Customer Lifetime Value (CLV) Predictive Analytics"
+  version: "1.0.0"
+  run_id: "RUN_20261010_01"
+
+environment:
+  python_version: "3.13.2"
+  random_seed: 42
+  reference_date: "2026-10-01"
+
+paths:
+  raw_data: "data/raw/Case_Study_2_CLV_Predictive_Analytics.csv"
+  cleaned_data: "data/processed/cleaned_data.csv"
+  model_features: "data/processed/model_features.csv"
+  scored_output: "reports/scored_output.csv"
+  model_metrics: "reports/model_metrics.csv"
+  cohort_backtest: "reports/cohort_backtest.csv"
+  forecast_debt_summary: "reports/forecast_debt_summary.csv"
+  top_20_accounts: "reports/top_20_value_exposed_accounts.csv"
+  figures_dir: "reports/figures"
+  sql_dir: "sql"
+
+data_audit:
+  expected_rows: 2000
+  expected_accounts: 1000
+  expected_arrays: 2000
+  expected_unlabelled: 116
+  expected_labelled: 1884
+
+validation:
+  group_column: "account_id"
+  target_column: "churn_event_next_12m"
+  n_outer_folds: 5
+  n_repeats: 5
+  inner_folds: 3
+  random_seed: 42
+
+models:
+  baseline:
+    churn_rate: 0.05
+  logistic_regression:
+    c_grid: [0.01, 0.1, 1.0, 10.0]
+    penalty: "l2"
+    solver: "lbfgs"
+    max_iter: 1000
+  random_forest:
+    n_estimators: 300
+    max_depth_grid: [4, 6, null]
+    min_samples_leaf_grid: [5, 10, 20]
+    random_state: 42
+  xgboost:
+    max_depth_grid: [2, 3, 4]
+    learning_rate_grid: [0.05, 0.1]
+    subsample: 0.8
+    n_estimators: 300
+    early_stopping_rounds: 20
+    random_state: 42
+
+calibration:
+  method: "sigmoid" # Platt scaling
+  cv_inner: 3
+
+financial_engine:
+  baseline_churn_q: 0.05
+  sensitivity_q:
+    conservative: 0.08
+    base: 0.05
+    aggressive: 0.03
+  horizon_years: 15
+  survival_horizons: [5, 10, 15]
+
+actions:
+  top_n_accounts: 20
+  flat_intervention_cost_usd: 5000.0
+  variable_cost_per_tb: 2.0
+  bootstrap_runs: 200
+
+snowflake:
+  database: "CLV_DB"
+  schema: "CLV"
+  scored_table: "CLV_SCORED_OUTPUT"
+  bias_monitor_table: "CLV_FORECAST_BIAS_MONITOR"
+  staging_table: "STG_CLV_SCORES"

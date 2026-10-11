@@ -1,0 +1,4 @@
+baseline_churn_rate_q,retention_factor_baseline_q,total_stated_profit,total_retention_adjusted_clv_xgb,total_forecast_debt_xgb,mean_retention_adjusted_clv_xgb,mean_forecast_debt_xgb,total_retention_adjusted_clv_rf,total_forecast_debt_rf,value_reduction_pct_vs_stated
+0.03,0.814997,4305689564.0,2061965505.09,2243724058.91,1030982.75,1121862.03,2062553584.09,2243135979.91,52.11
+0.05,0.715612,4305689564.0,2348335632.31,1957353931.69,1174167.82,978676.97,2349005384.96,1956684179.04,45.46
+0.08,0.594752,4305689564.0,2825540690.09,1480148873.91,1412770.35,740074.44,2826346543.12,1479343020.88,34.38

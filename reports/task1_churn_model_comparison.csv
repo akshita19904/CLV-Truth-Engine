@@ -1,0 +1,6 @@
+model,log_loss,brier_score,roc_auc,pr_auc,calibration_status
+Static 5% Baseline,0.517,0.1449,0.5,0.1582,Uncalibrated Baseline
+XGBoost,0.449,0.1364,0.5206,0.1729,Raw
+Random Forest,0.4401,0.1342,0.5154,0.1653,Raw
+XGBoost (Calibrated),0.4371,0.1333,0.5005,0.1602,Calibrated
+Random Forest (Calibrated),0.4372,0.1333,0.5045,0.1602,Calibrated

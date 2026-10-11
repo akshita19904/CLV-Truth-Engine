@@ -1,0 +1,16 @@
+test_number,test_name,target_table,expected_outcome,automated_testbed_status,live_snowflake_status,error_code_or_message
+1,Total Production Rows,CLV_SCORED_OUTPUT,2000 total rows,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+2,Unique Array Identifiers,CLV_SCORED_OUTPUT,2000 unique array_id,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+3,Unique Account Identifiers,CLV_SCORED_OUTPUT,1000 unique account_id,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+4,Arrays per Account Hierarchy,CLV_SCORED_OUTPUT,0 accounts with array count != 2,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+5,Primary Key Uniqueness,CLV_SCORED_OUTPUT,0 duplicate primary keys (array_id + model_version + run_id),PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+6,Probability Bounds,CLV_SCORED_OUTPUT,0 probabilities outside [0 1],PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+7,Target Label Isolation,CLV_SCORED_OUTPUT,Exactly 116 NULL labels and 1884 known labels,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+8,Value Exposed Non-Negative,CLV_SCORED_OUTPUT,0 records with value_exposed < 0,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+9,Zero Value Exposed for Loss Arrays,CLV_SCORED_OUTPUT,0 loss-making arrays with value_exposed > 0,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+10,Forecast Debt Reconciliation,CLV_SCORED_OUTPUT,0 records where |stated_profit - clv - debt| > 0.05,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+11,Probability Bucket Consistency,CLV_SCORED_OUTPUT,0 bucket mismatches (<0.10 LOW 0.10-0.20 MEDIUM >=0.20 HIGH),PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+12,SHAP Explainability Population,CLV_SCORED_OUTPUT,0 labelled rows missing drivers or numeric values,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+13,Metadata Integrity - Model Version,CLV_SCORED_OUTPUT,0 rows with NULL model_version,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+14,Metadata Integrity - Run ID,CLV_SCORED_OUTPUT,0 rows with NULL run_id,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter
+15,Cohort Forecast Bias Monitor Integrity,CLV_FORECAST_BIAS_MONITOR,18 cohorts across 5 dimensions,PASSED,BLOCKED - AUTH_ERROR,390190 (08001): SAML Identity Provider account parameter

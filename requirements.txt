@@ -1,0 +1,12 @@
+# CLV Truth Engine — Pinned Dependencies
+numpy>=1.25.0
+pandas>=2.0.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+shap>=0.44.0
+pyyaml>=6.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+python-pptx>=1.0.0
+pytest>=8.0.0

@@ -1,0 +1,10 @@
+column,dtype,missing_count,missing_pct,unique_count,min,max,mean,median
+account_id,str,0,0.0,1000,,,,
+array_id,str,0,0.0,2000,,,,
+contract_end_date,str,0,0.0,1000,,,,
+historical_15yr_net_profit_usd,int64,0,0.0,2000,-93780.0,4498824.0,2152844.782,2134327.5
+current_capacity_tb,int64,0,0.0,1366,53.0,2498.0,1282.771,1305.5
+utilization_rate_pct,float64,0,0.0,111,0.35,1.45,0.917,0.93
+static_baseline_churn_rate,float64,0,0.0,1,0.05,0.05,0.05,0.05
+churn_event_next_12m,float64,116,5.8,2,0.0,1.0,0.1582,0.0
+expansion_potential_signal,str,0,0.0,4,,,,

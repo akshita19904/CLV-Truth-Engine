@@ -1,0 +1,14 @@
+experiment,configuration,n_features,log_loss,brier_score,roc_auc,pr_auc,roc_auc_fold_sd
+Reference,Current Calibrated Logistic,15,0.4368,0.1332,0.5135,0.1641,0.0286
+A: Reduced features,Drop raw utilization + raw profit,13,0.4368,0.1332,0.5164,0.1648,0.034
+B: Regularization,"Full features, C=0.01",15,0.4369,0.1332,0.4927,0.1552,0.0366
+B: Regularization,"Full features, C=0.1",15,0.4368,0.1332,0.4989,0.1595,0.0341
+B: Regularization,"Full features, C=1",15,0.4368,0.1332,0.5135,0.1641,0.0286
+B: Regularization,"Full features, C=10",15,0.4368,0.1332,0.5121,0.1647,0.0236
+C: Ablation,Full,15,0.4368,0.1332,0.5135,0.1641,0.0286
+C: Ablation,Full - Operational,10,0.4369,0.1332,0.4968,0.1599,0.0361
+C: Ablation,Full - Profit,12,0.4366,0.1331,0.5129,0.1625,0.0271
+C: Ablation,Full - Expansion,14,0.4369,0.1332,0.4932,0.1566,0.0262
+C: Ablation,Full - Sibling,12,0.4369,0.1332,0.4945,0.1606,0.0205
+C: Ablation,Full - Contract,14,0.4368,0.1332,0.5154,0.1658,0.0357
+D: Simple,Operational + expansion only,6,0.4366,0.1332,0.5126,0.1657,0.0316

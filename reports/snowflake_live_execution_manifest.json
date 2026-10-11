@@ -1,0 +1,23 @@
+{
+  "execution_timestamp_utc": "2026-10-11T02:56:10.142630+00:00",
+  "connection_parameters": {
+    "account": "BCNJRTY-LR91595",
+    "user": "AKSHITA190904",
+    "authenticator": "externalbrowser",
+    "role": "ACCOUNTADMIN",
+    "warehouse": "COMPUTE_WH",
+    "database": "CLV_DB",
+    "schema": "CLV"
+  },
+  "connection_status": "FAILED",
+  "error_details": {
+    "error_type": "DatabaseError",
+    "error_message": "390190 (08001): Failed to connect to DB: BCNJRTY-LR91595.snowflakecomputing.com:443, There was an error related to the SAML Identity Provider account parameter. Contact Snowflake support.",
+    "timestamp": "2026-10-11T02:56:14.185297+00:00"
+  },
+  "ddl_executed": false,
+  "staging_loaded": false,
+  "procedures_executed": false,
+  "validation_queries": [],
+  "idempotency_tested": false
+}

@@ -1,0 +1,4 @@
+model_name,role,log_loss,brier_score,roc_auc,pr_auc,mean_predicted_churn,observed_churn,forecast_bias,pct_bias_vs_observed
+Static 5% Baseline,Business Baseline Assumption,0.517,0.1449,0.5,0.1582,0.05,0.1582,-0.1082,-68.39
+XGBoost (Calibrated),Primary Champion Tree Model,0.4368,0.1332,0.5085,0.1601,0.158,0.1582,-0.0002,-0.12
+Random Forest (Calibrated),Ensemble Comparison Model,0.4373,0.1333,0.4864,0.1509,0.1578,0.1582,-0.0003,-0.21
